@@ -1,42 +1,52 @@
 # Murmuration
 
-Murmuration is an interactive web interface based on WebGL that simulates flocks of birds (boids) moving in dynamic environments. The simulation reacts in real time to sound input (microphone or MIDI) and features advanced scene management.
+[![License: GPL v3](https://img.shields.io/badge/license-GPL%20v3-blue.svg)](LICENSE)
 
-## Main Features
+Murmuration is an interactive WebGL interface that simulates flocks of birds (boids) moving in dynamic environments. The simulation reacts in real time to live audio (microphone) or MIDI input, and supports scene-based composition.
 
-- **Boids simulation**: Birds move according to boids algorithms, reproducing realistic collective behaviors.
-- **Dynamic scene management**:
-	- Load scenes from JSON files.
-	- Each scene describes a group of birds and an associated environment.
-	- Smooth transitions between different scenes.
-- **Sound control**:
-	- Bird movements and behaviors react in real time to sound input (microphone or MIDI).
-- **Admin interface**:
-	- Switch scenes on the fly.
-	- Control sound inputs.
-	- Trigger events on bird groups or the environment via clicks in the admin interface.
+> **Project status: early stage.** The repository currently contains design documents only. The application is not yet implemented.
 
-## Usage
+## Features (planned)
 
-1. **Loading scenes**:
-	 - Scenes are defined in JSON files, including the configuration of bird groups and the environment.
-	 - The interface allows easy loading and switching between scenes.
+- **Boids simulation** — birds follow Reynolds-style alignment, cohesion and separation rules.
+- **Scene-based composition** — each scene is a JSON file describing bird groups, environment, and an audio-to-parameter mapping. See [doc/dev/SCENE_STRUCTURE.md](doc/dev/SCENE_STRUCTURE.md).
+- **Audio reactivity** — microphone input is analyzed live (band energy, onset, spectral centroid) and mapped to simulation parameters. See [doc/dev/SOUND_MANAGER.md](doc/dev/SOUND_MANAGER.md).
+- **MIDI control** — note, velocity, and CC messages can drive parameters and trigger scene events.
+- **Admin interface** — switch scenes, control inputs, and trigger events on the fly.
 
-2. **Real-time control**:
-	 - Users can interact with the interface to change scenes, control audio inputs, or trigger specific events.
+## Stack
 
-3. **Sound reactivity**:
-	 - Bird behaviors and some environment elements react to the captured sound environment (microphone or MIDI).
+| Concern | Choice |
+|---|---|
+| Rendering | WebGL (rendering framework: TBD) |
+| Audio capture & analysis | Web Audio API + [Meyda](https://meyda.js.org/) |
+| MIDI input | Web MIDI API + [WebMidi.js](https://webmidijs.org/) |
 
-## Goals
+## Requirements
 
-- Provide an immersive and interactive visual experience inspired by the phenomenon of murmuration (synchronized bird flight).
-- Allow advanced customization of scenes and interactions, suitable for both artistic installations and technical demonstrations.
+- A modern Chromium-based browser (Chrome, Edge): Web MIDI is not yet supported in Firefox or Safari.
+- Microphone access permission (for audio reactivity).
+- A USB or virtual MIDI device (optional, for MIDI control).
 
-## Coming soon
+## Getting started
 
-- Technical documentation on the structure of scene JSON files.
-- Tutorial for adding new scenes and customizing behaviors.
+The project is pre-scaffolding; the commands below describe the intended workflow once the build is in place.
 
----
-Project developed by Jules Pierrat.
+```sh
+npm install
+npm run dev
+```
+
+Then open the local dev URL printed in the console and grant microphone access when prompted.
+
+## Documentation
+
+All documentation lives under [doc/](doc/). Start with [doc/README.md](doc/README.md) for the index.
+
+## License
+
+Released under the [GNU General Public License v3.0](LICENSE).
+
+## Author
+
+Jules Pierrat — [github.com/JulesPierrat](https://github.com/JulesPierrat)

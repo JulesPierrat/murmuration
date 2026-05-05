@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/JulesPierrat/murmuration/doc/dev/scene.schema.json",
+  "title": "Murmuration Scene",
+  "description": "Schema for a Murmuration scene file. Status: proposal — see SCENE_STRUCTURE.md.",
+  "type": "object",
+  "required": ["version", "name", "boids"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1,
+      "description": "Scene schema version."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "background": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "color": {
+          "type": "string",
+          "description": "Hex (#rrggbb) or CSS color."
+        },
+        "image": {
+          "type": "string",
+          "description": "Path to background image."
+        }
+      }
+    },
+    "boids": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/boidGroup" }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "obstacles": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/obstacle" }
+        },
+        "lights": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/light" }
+        }
+      }
+    },
+    "audioMapping": {
+      "type": "object",
+      "description": "Maps Sound Manager feature names to simulation parameters.",
+      "additionalProperties": { "$ref": "#/$defs/mapping" }
+    },
+    "events": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/event" }
+    }
+  },
+  "$defs": {
+    "boidGroup": {
+      "type": "object",
+      "required": ["groupName", "count", "model"],
+      "additionalProperties": false,
+      "properties": {
+        "groupName": { "type": "string", "minLength": 1 },
+        "count": { "type": "integer", "minimum": 1 },
+        "model": { "type": "string" },
+        "color": { "type": "string" },
+        "behavior": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "alignment":  { "type": "number", "minimum": 0 },
+            "cohesion":   { "type": "number", "minimum": 0 },
+            "separation": { "type": "number", "minimum": 0 },
+            "speed":      { "type": "number", "minimum": 0 }
+          }
+        },
+        "soundReactive": { "type": "boolean", "default": false }
+      }
+    },
+    "obstacle": {
+      "type": "object",
+      "required": ["type", "position"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "type": "string" },
+        "position": {
+          "type": "array",
+          "items": { "type": "number" },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "size": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "light": {
+      "type": "object",
+      "required": ["type"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "type": "string", "enum": ["directional", "point", "ambient"] },
+        "direction": {
+          "type": "array",
+          "items": { "type": "number" },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "position": {
+          "type": "array",
+          "items": { "type": "number" },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "intensity": { "type": "number", "minimum": 0 }
+      }
+    },
+    "mapping": {
+      "type": "object",
+      "required": ["target"],
+      "additionalProperties": false,
+      "properties": {
+        "target": {
+          "type": "string",
+          "description": "Dotted path of the simulation parameter or scene event."
+        },
+        "min": { "type": "number" },
+        "max": { "type": "number" }
+      },
+      "dependentRequired": {
+        "min": ["max"],
+        "max": ["min"]
+      }
+    },
+    "event": {
+      "type": "object",
+      "required": ["name", "trigger", "action"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "trigger": { "type": "string" },
+        "action": { "type": "string" },
+        "target": { "type": "string" }
+      }
+    }
+  }
+}
