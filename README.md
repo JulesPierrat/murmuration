@@ -16,11 +16,11 @@ Murmuration is an interactive WebGL interface that simulates flocks of birds (bo
 
 ## Stack
 
-| Concern | Choice |
-|---|---|
-| Rendering | WebGL (rendering framework: TBD) |
-| Audio capture & analysis | Web Audio API + [Meyda](https://meyda.js.org/) |
-| MIDI input | Web MIDI API + [WebMidi.js](https://webmidijs.org/) |
+| Concern                  | Choice                                              |
+| ------------------------ | --------------------------------------------------- |
+| Rendering                | WebGL (rendering framework: TBD)                    |
+| Audio capture & analysis | Web Audio API + [Meyda](https://meyda.js.org/)      |
+| MIDI input               | Web MIDI API + [WebMidi.js](https://webmidijs.org/) |
 
 ## Requirements
 

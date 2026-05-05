@@ -19,11 +19,11 @@ This document specifies the intended architecture. It is a proposal: no implemen
 
 ## Stack
 
-| Layer | Choice | Rationale |
-|---|---|---|
-| Audio capture & graph | Web Audio API (`AudioContext`, `MediaStreamAudioSourceNode`, `AnalyserNode`) | Native, low latency, no dependency. |
-| Audio feature extraction | [Meyda](https://meyda.js.org/) | 30+ features ready to use, plugs directly into Web Audio. |
-| MIDI capture | Web MIDI API + [WebMidi.js](https://webmidijs.org/) | Web MIDI API is verbose; WebMidi.js wraps device handling and event normalization. |
+| Layer                    | Choice                                                                       | Rationale                                                                          |
+| ------------------------ | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Audio capture & graph    | Web Audio API (`AudioContext`, `MediaStreamAudioSourceNode`, `AnalyserNode`) | Native, low latency, no dependency.                                                |
+| Audio feature extraction | [Meyda](https://meyda.js.org/)                                               | 30+ features ready to use, plugs directly into Web Audio.                          |
+| MIDI capture             | Web MIDI API + [WebMidi.js](https://webmidijs.org/)                          | Web MIDI API is verbose; WebMidi.js wraps device handling and event normalization. |
 
 Tone.js is **not** used in v1. It is only relevant if we generate sound, which is out of scope.
 
@@ -54,15 +54,15 @@ The boids and the renderer never call the audio API. They subscribe to the mappi
 
 A short, opinionated list — adding more later is cheap, but starting wide makes the mapping layer unusable.
 
-| Feature | Source | Range | Notes |
-|---|---|---|---|
-| `rms` | Meyda `rms` | 0–1 | Perceived volume. |
-| `bassEnergy` | Meyda `loudness` band 0–2 | 0–1 | ~20–250 Hz. |
-| `midEnergy` | Meyda `loudness` band 3–18 | 0–1 | ~250–4000 Hz. |
-| `highEnergy` | Meyda `loudness` band 19–23 | 0–1 | ~4 kHz+. |
-| `spectralCentroid` | Meyda `spectralCentroid` | 0–1 | Brightness. |
-| `onset` | Meyda `energy` derivative + threshold | boolean event | Beat / transient. |
-| `silence` | `rms` low for N ms | boolean event | Triggers dispersion. |
+| Feature            | Source                                | Range         | Notes                |
+| ------------------ | ------------------------------------- | ------------- | -------------------- |
+| `rms`              | Meyda `rms`                           | 0–1           | Perceived volume.    |
+| `bassEnergy`       | Meyda `loudness` band 0–2             | 0–1           | ~20–250 Hz.          |
+| `midEnergy`        | Meyda `loudness` band 3–18            | 0–1           | ~250–4000 Hz.        |
+| `highEnergy`       | Meyda `loudness` band 19–23           | 0–1           | ~4 kHz+.             |
+| `spectralCentroid` | Meyda `spectralCentroid`              | 0–1           | Brightness.          |
+| `onset`            | Meyda `energy` derivative + threshold | boolean event | Beat / transient.    |
+| `silence`          | `rms` low for N ms                    | boolean event | Triggers dispersion. |
 
 MIDI features are exposed flat: `midi.noteOn`, `midi.noteOff`, `midi.velocity`, `midi.cc.<id>`.
 
@@ -83,11 +83,11 @@ Mappings live in the scene JSON, in an `audioMapping` block. This keeps them ver
 ```json
 {
   "audioMapping": {
-    "bassEnergy":   { "target": "boids.speed",      "min": 1.0, "max": 4.0 },
-    "midEnergy":    { "target": "boids.cohesion",   "min": 0.5, "max": 1.5 },
-    "highEnergy":   { "target": "boids.separation", "min": 0.8, "max": 2.0 },
-    "midi.cc1":     { "target": "camera.zoom",      "min": 0.5, "max": 2.0 },
-    "onset":        { "target": "events.scatter" }
+    "bassEnergy": { "target": "boids.speed", "min": 1.0, "max": 4.0 },
+    "midEnergy": { "target": "boids.cohesion", "min": 0.5, "max": 1.5 },
+    "highEnergy": { "target": "boids.separation", "min": 0.8, "max": 2.0 },
+    "midi.cc1": { "target": "camera.zoom", "min": 0.5, "max": 2.0 },
+    "onset": { "target": "events.scatter" }
   }
 }
 ```
@@ -98,13 +98,13 @@ See [SCENE_STRUCTURE.md](SCENE_STRUCTURE.md) for the full scene schema.
 
 ## Latency budget
 
-| Stage | Target |
-|---|---|
-| AnalyserNode FFT | ~5 ms (fftSize 1024 @ 48 kHz) |
-| Meyda feature extraction | < 10 ms |
-| Smoothing + mapping | < 1 ms |
-| Render frame | ~16 ms (60 fps) |
-| **Total input-to-render** | **< 50 ms** |
+| Stage                     | Target                        |
+| ------------------------- | ----------------------------- |
+| AnalyserNode FFT          | ~5 ms (fftSize 1024 @ 48 kHz) |
+| Meyda feature extraction  | < 10 ms                       |
+| Smoothing + mapping       | < 1 ms                        |
+| Render frame              | ~16 ms (60 fps)               |
+| **Total input-to-render** | **< 50 ms**                   |
 
 If the budget is exceeded, drop `fftSize` to 512 before reducing the feature list.
 

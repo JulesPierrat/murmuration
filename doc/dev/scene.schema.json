@@ -73,10 +73,10 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "alignment":  { "type": "number", "minimum": 0 },
-            "cohesion":   { "type": "number", "minimum": 0 },
+            "alignment": { "type": "number", "minimum": 0 },
+            "cohesion": { "type": "number", "minimum": 0 },
             "separation": { "type": "number", "minimum": 0 },
-            "speed":      { "type": "number", "minimum": 0 }
+            "speed": { "type": "number", "minimum": 0 }
           }
         },
         "soundReactive": { "type": "boolean", "default": false }

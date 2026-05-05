@@ -39,13 +39,11 @@ This document describes the structure of a scene JSON file used in the Murmurati
       { "type": "tree", "position": [10, 0, -5], "size": 2 },
       { "type": "rock", "position": [-3, 0, 7], "size": 1 }
     ],
-    "lights": [
-      { "type": "directional", "direction": [1, -1, 0], "intensity": 0.8 }
-    ]
+    "lights": [{ "type": "directional", "direction": [1, -1, 0], "intensity": 0.8 }]
   },
   "audioMapping": {
     "bassEnergy": { "target": "boids.speed", "min": 1.0, "max": 4.0 },
-    "onset":      { "target": "events.scatter" }
+    "onset": { "target": "events.scatter" }
   },
   "events": [
     {
@@ -61,6 +59,7 @@ This document describes the structure of a scene JSON file used in the Murmurati
 ## Structure Details
 
 ### Root Object
+
 - `version` (integer, required): Schema version. Currently `1`.
 - `name` (string, required): Scene name.
 - `background` (object):
@@ -72,6 +71,7 @@ This document describes the structure of a scene JSON file used in the Murmurati
 - `events` (array, optional): List of events or triggers for the scene.
 
 ### Boids (Bird Groups)
+
 - `groupName` (string): Identifier for the group.
 - `count` (integer): Number of birds in the group.
 - `model` (string): Path to the 3D model used for birds.
@@ -84,6 +84,7 @@ This document describes the structure of a scene JSON file used in the Murmurati
 - `soundReactive` (boolean): If true, group reacts to sound input.
 
 ### Environment
+
 - `obstacles` (array):
   - `type` (string): Type of obstacle (e.g., tree, rock).
   - `position` (array): `[x, y, z]` coordinates.
@@ -94,12 +95,15 @@ This document describes the structure of a scene JSON file used in the Murmurati
   - `intensity` (float): Light intensity.
 
 ### Audio Mapping
+
 Each entry maps a feature name (from the Sound Manager) to a simulation parameter.
+
 - Key: feature name (e.g. `bassEnergy`, `midi.cc1`, `onset`).
 - `target` (string, required): Dotted path of the simulation parameter (e.g. `boids.speed`, `camera.zoom`) or scene event (e.g. `events.scatter`).
 - `min`, `max` (number, optional): Output range for continuous features. The 0–1 feature value is linearly interpolated into `[min, max]`. Omitted for event features.
 
 ### Events
+
 - `name` (string, required): Event name.
 - `trigger` (string, required): How the event is triggered (e.g. `adminClick`, `soundPeak`).
 - `action` (string, required): Action to perform (e.g. `boidsScatter`, `changeBackground`).

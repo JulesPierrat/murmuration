@@ -4,10 +4,10 @@ External references consulted while designing Murmuration. These files are kept 
 
 ## Sources
 
-| File | Author / Origin | Purpose | Note |
-|---|---|---|---|
-| `Boids.pdf` | Craig W. Reynolds, *Flocks, Herds, and Schools: A Distributed Behavioral Model* (SIGGRAPH '87) | Foundational paper for the boids model. | Referenced for the alignment / cohesion / separation rules. |
-| `DocCraigReynolds.html` | Archived page from [red3d.com/cwr](https://www.red3d.com/cwr/boids/) | Reynolds' own follow-up notes and resource list on boids. | Local archive of the public page. |
+| File                    | Author / Origin                                                                                | Purpose                                                   | Note                                                        |
+| ----------------------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ----------------------------------------------------------- |
+| `Boids.pdf`             | Craig W. Reynolds, _Flocks, Herds, and Schools: A Distributed Behavioral Model_ (SIGGRAPH '87) | Foundational paper for the boids model.                   | Referenced for the alignment / cohesion / separation rules. |
+| `DocCraigReynolds.html` | Archived page from [red3d.com/cwr](https://www.red3d.com/cwr/boids/)                           | Reynolds' own follow-up notes and resource list on boids. | Local archive of the public page.                           |
 
 ## Licensing
 
